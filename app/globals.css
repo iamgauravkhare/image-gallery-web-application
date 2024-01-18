@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.d-border {
-  border: 2px solid red;
+.box-shadow {
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }

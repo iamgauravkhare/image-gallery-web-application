@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
 import CentralisedData from "./context";
 
