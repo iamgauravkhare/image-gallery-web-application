@@ -9,8 +9,10 @@ import toast from "react-hot-toast";
 export default function Home() {
   const { data, setData } = useContext(centralisedData);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getRandomImages = async () => {
+    const nToast = toast.loading("Loading...");
     try {
       const response = await axios.get(
         `https://api.unsplash.com/photos/random?client_id=i-HHB4ZRQCCy3kbKsj-5p1saUoKORIyf3vDszuupUYI&count=30`
@@ -20,6 +22,8 @@ export default function Home() {
       console.error(error);
       toast.error("Error occured while fetching images");
     }
+    setLoading(false);
+    toast.dismiss(nToast);
   };
 
   const images =
@@ -27,12 +31,25 @@ export default function Home() {
     data.map((e, i) => (
       <div key={i} className="mb-3">
         <Suspense fallback={<video src="/video.mp4" loop autoPlay></video>}>
-          {wait(2000)}
+          {wait(1000)}
           <div className="relative group overflow-hidden">
             <img src={e.urls.small} alt="" loading="lazy" />
-            <div className="absolute left-0 w-full bottom-0 hidden group-hover:flex transition-all duration-200 text-white font-bold  backdrop-blur-[3px]  flex-col items-start gap-2 p-2">
-              <p>Creator - {e.user.name}</p>
-              <p>Likes - {e.likes}</p>
+            <div className="absolute  left-0 w-full h-full bottom-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-white font-bold  backdrop-blur-sm hidden md:flex lg:flex items-center justify-center gap-2 p-2">
+              <div className="flex items-center flex-col gap-3">
+                <div className="bg-white p-1 rounded-full h-[60px] w-[60px]">
+                  <img
+                    src={e?.user?.profile_image?.large}
+                    alt=""
+                    height={"100%"}
+                    width={"100%"}
+                    className="rounded-full object-cover object-top"
+                  />
+                </div>
+                <div className="font-mono font-bold text-center flex flex-col items-center justify-center">
+                  <p>{e?.user?.name}</p>
+                  <p className="font-bold italic">{e?.user?.username}</p>
+                </div>
+              </div>
             </div>
           </div>
         </Suspense>
@@ -40,38 +57,43 @@ export default function Home() {
     ));
 
   useEffect(() => {
-    if (data.length === 0) getRandomImages();
+    if (data.length === 0) {
+      setLoading(true);
+      getRandomImages();
+    }
   }, []);
 
   return (
-    <div className="w-full">
-      <h2 className="font-bold text-3xl text-center">Images of the day!</h2>
-      <div>
-        {data.length > 0 ? (
-          <InfiniteScroll
-            dataLength={data.length}
-            className="w-full mt-10 columns-2 md:columns-3 lg:columns-4 gap-3 p-3"
-            next={getRandomImages}
-            hasMore={hasMore}
-            loader={
-              <div className="mb-3">
-                <video src="/video.mp4" loop autoPlay></video>
-              </div>
-            }
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
-            {images}
-          </InfiniteScroll>
-        ) : (
-          <div className="font-semibold text-3xl text-center mt-32">
-            Loading.....
+    <div className="w-full min-h-screen text-black flex items-center justify-center">
+      {loading ? (
+        <span className="loader"></span>
+      ) : (
+        <div className="w-full min-h-screen flex flex-col items-center gap-10">
+          <p className="font-bold text-gray-600 text-xl text-center px-5">
+            Trending! images of the day.
+          </p>
+          <div>
+            <InfiniteScroll
+              dataLength={data.length}
+              className="w-full columns-2 md:columns-3 lg:columns-4 gap-3 p-3"
+              next={getRandomImages}
+              hasMore={hasMore}
+              // loader={
+              //   <div className="mb-3">
+              //     <video src="/video.mp4" loop autoPlay></video>
+              //   </div>
+              // }
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >
+              {images}
+            </InfiniteScroll>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

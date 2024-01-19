@@ -1,7 +1,8 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { Toaster } from "react-hot-toast";
 import CentralisedData from "./context";
+import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Home - Image Pulse",
@@ -14,9 +15,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body suppressHydrationWarning>
         <CentralisedData>
-          <div className="min-h-screen w-full text-black flex flex-col items-center gap-10">
+          <div className="min-h-screen w-full text-black font-mono flex flex-col items-center gap-10">
             <Navbar />
             {children}
+            <Footer />
           </div>
           <Toaster />
         </CentralisedData>
