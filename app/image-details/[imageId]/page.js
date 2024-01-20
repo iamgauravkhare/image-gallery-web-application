@@ -1,13 +1,14 @@
 "use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { GrView } from "react-icons/gr";
 import { LuHardDriveDownload } from "react-icons/lu";
 import { BiLike } from "react-icons/bi";
 import Link from "next/link";
 import { wait } from "@/utilities/delayHandler";
+import { centralisedData } from "@/app/context";
 
 const page = (props) => {
   const router = useRouter();
@@ -25,7 +26,6 @@ const page = (props) => {
         `https://api.unsplash.com/photos/${props.params.imageId}?client_id=i-HHB4ZRQCCy3kbKsj-5p1saUoKORIyf3vDszuupUYI`
       );
       setImageDetails(data);
-      console.log({ data });
     } catch (error) {
       console.error(error);
       toast.error("Error while fetching image details!");

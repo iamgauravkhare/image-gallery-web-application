@@ -1,17 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { ImHome } from "react-icons/im";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
+import { centralisedData } from "@/app/context";
 
 const Navbar = () => {
+  const { setCurrentPage } = useContext(centralisedData);
   const router = useRouter();
   const [query, setQuery] = useState("");
   const submitHandler = (e) => {
     e.preventDefault();
+    setCurrentPage(0);
     if (query.trim() !== "") {
       router.push(`/search-image/${query.trim()}`);
     } else {
@@ -30,10 +33,11 @@ const Navbar = () => {
         <form
           className="w-full md:w-[50%] lg:w-[65%] flex gap-2"
           onSubmit={submitHandler}
+          autoComplete="off"
         >
           <input
             name="query"
-            type="search"
+            type="text"
             required
             value={query}
             onChange={(e) => setQuery(e.target.value)}
