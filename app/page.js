@@ -37,7 +37,7 @@ export default function Home() {
           <Suspense fallback={<video src="/video.mp4" loop autoPlay></video>}>
             {wait(1000)}
             <div className="relative group overflow-hidden">
-              <img src={e.urls.small} alt=""/>
+              <img src={e.urls.small} alt="" />
               <div className="absolute  left-0 w-full h-full bottom-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-white font-bold  backdrop-blur-sm hidden md:flex lg:flex items-center justify-center gap-2 p-2">
                 <div className="flex items-center flex-col gap-3">
                   <div className="bg-white p-1 rounded-full h-[60px] w-[60px]">

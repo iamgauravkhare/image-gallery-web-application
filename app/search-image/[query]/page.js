@@ -24,8 +24,6 @@ const Page = (props) => {
     setCurrentPage,
   } = useContext(centralisedData);
 
-
-
   const nextPageHandler = () => {
     setPage(page + 1);
     setPreLoader(true);
@@ -63,7 +61,8 @@ const Page = (props) => {
             <Suspense fallback={<video src="/video.mp4" loop autoPlay></video>}>
               {wait(1000)}
               <div className="relative group overflow-hidden">
-                <img src={e.urls.small} alt=""/>
+                <img src={e.urls.small} alt="" />
+
                 <div className="absolute  left-0 w-full h-full bottom-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-white font-bold  backdrop-blur-sm hidden md:flex lg:flex items-center justify-center gap-2 p-2">
                   <div className="flex items-center flex-col gap-3">
                     <div className="bg-white p-1 rounded-full h-[60px] w-[60px]">
@@ -85,7 +84,7 @@ const Page = (props) => {
             </Suspense>
           ) : (
             <div className="relative group overflow-hidden">
-              <img src={e.urls.small} alt=""/>
+              <img src={e.urls.small} alt="" />
               <div className="absolute  left-0 w-full h-full bottom-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 text-white font-bold  backdrop-blur-sm hidden md:flex lg:flex items-center justify-center gap-2 p-2">
                 <div className="flex items-center flex-col gap-3">
                   <div className="bg-white p-1 rounded-full h-[60px] w-[60px]">
@@ -145,8 +144,10 @@ const Page = (props) => {
             Showing search results for "
             {props.params.query.replace(/%20/g, " ")}".
           </p>
-          <div className="w-full columns-2 md:columns-3 lg:columns-4 gap-3 p-3 relative">
-            {showSearchImageData}
+          <div>
+            <div className="w-full columns-2 md:columns-3 lg:columns-4 gap-3 p-3 relative">
+              {showSearchImageData}
+            </div>
           </div>
           {loading !== true
             ? searchData.length !== 0 && (
